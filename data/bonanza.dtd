@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Order placement data
+-->
+
+<!-- An order identifies the customer, order type, burgers, and anything special -->
+<!ELEMENT order (customer, delivery?, burger+, special?)>
+
+<!--Flesh out pieces that make up an order -->
+
+<!--A customer is identified by their name -->
+<!ELEMENT customer (#PCDATA)>
+
+<!-- An order can be for eat-in, takeout, or delivery ... customer-specified -->
+<!ATTLIST order
+    type    (eatin|takeout|delivery) #REQUIRED
+>
+
+<!-- An order to be deliveerd will need delivery instructions -->
+<!ELEMENT delivery (#PCDATA)>
+
+<!-- Let's provide for any special instructions -->
+<!ELEMENT special (#PCDATA)>
+
+<!-- The burgers will be specified individually
+Burger Customization
+1 of 5 patty types
+up to two cheeses
+any number of toppings
+any number of sauces
+special instructions
+an optional name, should the customer wish to propose this as a menu item
+ -->
+<!ELEMENT burger (patty, cheeses, topping*, sauce*, instructions?, name?)>
+
+<!-- A patty can be 1 of 5 types (default is beef), and might be named explicitly -->
+<!ELEMENT patty (#PCDATA)>
+<!ATTLIST patty
+    type    (beef|pork|turkey|bison|vege) "beef"
+>
+
+<!-- The customer can order two cheeses. Let's assume that one might go on top
+and one on bottom, and provide for unique codes for these. -->
+<!ELEMENT cheeses EMPTY>
+<!ATTLIST cheeses
+    top (american|swiss|jack|blue|gruyere|gouda|aged|goat|brie) #IMPLIED
+    bottom (american|swiss|jack|blue|gruyere|gouda|aged|goat|brie) #IMPLIED
+>
+
+<!-- Toppings... there are lots so we should handle them individually -->
+<!ELEMENT topping (#PCDATA)>
+<!ATTLIST topping
+    type    (lettuce|tomato|raw|dill|roasted|shrooms|salsa|bacon|chillies|fkchili|avocado|egg|porkbelly) #REQUIRED
+>
+
+<!-- Sauces are similar to toppings -->
+<!ELEMENT sauce EMPTY>
+<!ATTLIST sauce
+    type    (ketchup|mustard|mayo|fksauce|peanutbutter) #REQUIRED
+>
+
+<!-- Instructions for handling special requests -->
+<!ELEMENT instructions (#PCDATA)>
+
+<!-- Customers can name their creation -->
+<!ELEMENT name (#PCDATA)>
